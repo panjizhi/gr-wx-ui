@@ -1,0 +1,20 @@
+<view class="index">
+    <view class="user-infos">
+        <image class="user-logo" src="{{user.avatarUrl}}"></image>
+        <view class="user-name">{{user.nickName}}</view>
+    </view>
+
+    <view wx:if="{{list.length}}" class="paper-list">
+        <block wx:for-items="{{list}}" wx:key="{{item._id}}">
+            <view id="{{item._id}}" data-id="{{item._id}}" class="paper-list-item">
+                <navigator url="pages/button/button" class="navigator">
+                    <view class="paper-title">{{item.name}}</view>
+                    <view class="navigator-arrow"></view>
+                </navigator>
+            </view>
+        </block>
+    </view>
+    <view wx:else class="no-data">
+        <view class="no-data-tips">您暂时没有待考试卷</view>
+    </view>
+</view>
