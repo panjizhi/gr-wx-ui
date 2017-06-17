@@ -30,7 +30,6 @@ function formatLocation(longitude, latitude) {
     }
 }
 
-
 function assign(target, varArgs) {   
     if (typeof Object.assign === 'function') {
         return Object.assign(target, varArgs);
