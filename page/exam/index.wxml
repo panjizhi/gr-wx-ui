@@ -1,0 +1,9 @@
+<view class="index">
+    <view class="user-infos">
+        <image class="user-logo" src="{{user.avatarUrl}}"></image>
+        <view class="user-name">{{user.name || user.nickName}}</view>
+    </view>
+    <view class="no-data">
+        <view class="no-data-tips">您暂时没有待考试卷</view>
+    </view>
+</view>
