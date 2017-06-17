@@ -1,4 +1,5 @@
-const openIdUrl = require('./config').openIdUrl
+const config = require('config');
+const utils = require('util/util');
 
 App({
     onLaunch() {
@@ -12,28 +13,43 @@ App({
     },
     globalData: {
         code: '',
-        user: null
+        userInfo: null
     },
-    getUserInfo(cb) {
-        if ( typeof cb !== 'function' ) {
+    getUserInfo(callback) {
+        callback = callback || function () {};
+
+        if ( typeof callback !== 'function' ) {
             return false;
         }
 
-        if ( this.globalData.user !== null ) {
-            cb(this.globalData.user);
-            return true;
+        let globalData = this.globalData;
+        let userInfo = globalData.userInfo || {};
+
+        if ( userInfo.id ) {
+            return callback(userInfo);
         }
 
         wx.login({
             success: res => {
-                this.globalData.code = res.code;
+                globalData.code = res.code;
 
-                wx.getUserInfo({
+                wx.request({
+                    url: `${config.requestUrl}/code2session/${res.code}`,
+                    dataType: 'json',
                     success: res => {
-                        this.globalData.user = res.userInfo;
-                        cb(res.userInfo);
+                        const id = res.data.openid;
+
+                        id && wx.getUserInfo({
+                            success: res => {
+                                globalData.userInfo = utils.assign({
+                                    id
+                                }, res.userInfo);
+
+                                return callback(globalData.userInfo);
+                            }
+                        });
                     }
-                })
+                });
             }
         });
     }

@@ -1,3 +1,5 @@
+const config = require('../../config');
+
 const app = getApp();
 
 Page({
@@ -8,12 +10,12 @@ Page({
     onLoad() {
         app.getUserInfo( user => {
             this.setData({
-                user: user
+                user
             });
         });
 
         wx.request({
-            url: 'https://jizhi.work/api/exam',
+            url: `${config.requestUrl}/exam`,
             dataType: 'json',
             success: res => {
                 this.setData({
