@@ -36,15 +36,10 @@ App({
                 wx.request({
                     url: `${config.requestUrl}/code2session/${res.code}`,
                     dataType: 'json',
-                    success: res => {
-                        const id = res.data.openid;
-
-                        id && wx.getUserInfo({
+                    success: session => {
+                        session.data.openid && wx.getUserInfo({
                             success: res => {
-                                globalData.userInfo = utils.assign({
-                                    id
-                                }, res.userInfo);
-
+                                globalData.userInfo = utils.assign(session.data, res.userInfo);
                                 return callback(globalData.userInfo);
                             }
                         });
