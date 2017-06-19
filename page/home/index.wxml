@@ -4,8 +4,26 @@
         <view class="user-name">{{user.name || user.nickName}}</view>
     </view>
 
-    <view wx:if="{{list.length}}" class="paper-list">
-        <block wx:for-items="{{list}}" wx:key="{{item._id}}">
+    <view wx:if="{{!user.name}}">
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">考生姓名:</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" placeholder="请输入真实姓名" bindinput="inputRealName" />
+                </view>
+            </view>
+        </view>
+        <view class="weui-cells__tips">姓名一旦填写, 将不能修改, 请确保信息真实.</view>
+
+        <view class="weui-btn-area">
+            <button class="weui-btn" type="primary" bindtap="addRealName">保存</button>
+        </view>
+    </view>
+
+    <view wx:elif="{{papers.length}}" class="paper-list">
+        <block wx:for-items="{{papers}}" wx:key="{{item._id}}">
             <view class="paper-list-item">
                 <navigator url="/page/exam/index?id={{item._id}}" class="navigator">
                     <view class="paper-title">{{item.name}}</view>
@@ -14,6 +32,7 @@
             </view>
         </block>
     </view>
+
     <view wx:else class="no-data">
         <view class="no-data-tips">您暂时没有待考试卷</view>
     </view>

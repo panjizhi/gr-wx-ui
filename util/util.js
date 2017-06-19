@@ -56,8 +56,23 @@ function assign(target, varArgs) {
     return to;
 }
 
+function sizeOfHans(str) {
+    if ( typeof str !== 'string') {
+        return 0;
+    }
+
+    var strHex = '';
+
+    for (var i = str.length - 1; i >= 0; i-- ) {
+        strHex += str.charCodeAt(i).toString(16);
+    }
+
+    return Math.ceil(strHex.length / 4);
+}
+
 module.exports = {
     formatTime: formatTime,
     formatLocation: formatLocation,
-    assign: assign
+    assign: assign,
+    sizeOfHans: sizeOfHans
 }

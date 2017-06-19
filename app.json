@@ -1,7 +1,8 @@
 {
     "pages": [
         "page/home/index",
-        "page/exam/index"
+        "page/exam/index",
+        "page/done/index"
     ],
     "window": {
         "navigationBarTextStyle": "black",
@@ -22,7 +23,7 @@
                 "text": "待考试题"
             },
             {
-                "pagePath": "page/exam/index",
+                "pagePath": "page/done/index",
                 "iconPath": "assets/image/icon_API.png",
                 "selectedIconPath": "assets/image/icon_API_HL.png",
                 "text": "已做试题"

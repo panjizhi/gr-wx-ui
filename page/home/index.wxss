@@ -51,6 +51,7 @@
     display: flex;
     position: relative;
 }
+
 .navigator:before {
     content: " ";
     height: 1px;
@@ -61,6 +62,7 @@
     right: 30rpx;
     position: absolute;
 }
+
 .navigator:first-child:before {
     display: none;
 }
@@ -69,6 +71,7 @@
     padding: 0 26rpx 0 0;
     position: relative;
 }
+
 .navigator-arrow:after {
     content: " ";
     margin: -8rpx 0 0;
