@@ -1,3 +1,6 @@
+@import 'assets/weui/reset.wxss';
+@import 'assets/weui/weui.wxss';
+
 /* reset */
 page {
     background-color: #F8F8F8;
