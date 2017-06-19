@@ -2,6 +2,10 @@ const config = require('config');
 const utils = require('util/util');
 
 App({
+    globalData: {
+        code: '',
+        userInfo: null
+    },
     onLaunch() {
         console.log('Launch App');
     },
@@ -10,10 +14,6 @@ App({
     },
     onHide() {
         console.log('Hide App');
-    },
-    globalData: {
-        code: '',
-        userInfo: null
     },
     getUserInfo(callback) {
         callback = callback || function () {};
@@ -25,7 +25,7 @@ App({
         let globalData = this.globalData;
         let userInfo = globalData.userInfo || {};
 
-        if ( userInfo.id ) {
+        if ( userInfo.openid ) {
             return callback(userInfo);
         }
 

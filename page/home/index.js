@@ -12,16 +12,16 @@ Page({
             this.setData({
                 user
             });
-        });
 
-        wx.request({
-            url: `${config.requestUrl}/exam`,
-            dataType: 'json',
-            success: res => {
-                this.setData({
-                    list: res.data.collections
-                });
-            }
-        })
+            wx.request({
+                url: `${config.requestUrl}/exam`,
+                dataType: 'json',
+                success: res => {
+                    this.setData({
+                        list: res.data.collections
+                    });
+                }
+            });
+        });
     }
 });
