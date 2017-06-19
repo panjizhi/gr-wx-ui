@@ -44,12 +44,16 @@ Page({
         });
     },
     radioChange(e) {
-        let result = this.data.result;
+        const selfData = this.data;
+        const currentIndex = selfData.currentIndex + 1;
+        const currentQeustion = selfData.paper.questions[currentIndex];
+
+        let result = selfData.result;
         result.push(e.detail.value);
 
         this.setData({
-            currentIndex: this.data.currentIndex + 1,
-            currentQeustion: this.data.paper.questions[this.data.currentIndex],
+            currentIndex,
+            currentQeustion,
             result
         });
     }
