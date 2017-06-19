@@ -7,9 +7,15 @@ Page({
     data: {
         user: {},
         realName: '',
-        papers: []
+        papers: [],
+        ready: false
     },
     onLoad() {
+        wx.showLoading({
+            title: '加载中...',
+            mask: true
+        });
+
         app.getUserInfo( user => {
             this.setData({
                 user
@@ -19,8 +25,11 @@ Page({
                 url: `${config.requestUrl}/exam`,
                 dataType: 'json',
                 success: res => {
+                    wx.hideLoading();
+
                     this.setData({
-                        papers: res.data.collections || []
+                        papers: res.data.collections || [],
+                        ready: true
                     });
                 }
             });
@@ -38,13 +47,48 @@ Page({
         }
 
         if ( msg.length > 0 ) {
-            wx.showModal({
+            return wx.showModal({
                 content: msg,
                 showCancel: false
             });
         }
 
+        const self = this;
 
+        wx.request({
+            url: `${config.requestUrl}/user/add`,
+            method: 'POST',
+            header: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            dataType: 'json',
+            data: {
+                name: self.data.realName,
+                wxid: self.data.user.openid,
+                weixin: self.data.user.nickName
+            },
+            success(res){
+                const user = self.data.user;
+                const data = res.data || {};
+                self.setData({
+                    user: {
+                        'session_key': user.session_key,
+                        'expires_in': user.expires_in,
+                        'openid': user.openid,
+                        '_id': data._id,
+                        'weixin': data.weixin,
+                        'name': data.name,
+                        'nickName': user.nickName,
+                        'gender': user.gender,
+                        'language': user.language,
+                        'city': user.city,
+                        'province': user.province,
+                        'country': user.country,
+                        'avatarUrl': user.avatarUrl
+                    }
+                });
+            }
+        });
     },
     inputRealName(e) {
         this.setData({

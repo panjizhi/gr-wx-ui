@@ -1,4 +1,4 @@
-<view class="index">
+<view class="index" wx:if="{{ready}}">
     <view class="user-infos">
         <image class="user-logo" src="{{user.avatarUrl}}"></image>
         <view class="user-name">{{user.name || user.nickName}}</view>
