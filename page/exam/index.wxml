@@ -1,9 +1,20 @@
-<view class="index">
-    <view class="user-infos">
-        <image class="user-logo" src="{{user.avatarUrl}}"></image>
-        <view class="user-name">{{user.name || user.nickName}}</view>
+<view class="page">
+    <view class="page__hd">
+        <view class="page__title">{{paper.name}}</view>
+        <view class="page__desc">第 {{currentIndex + 1}} 题: {{paper.questions[currentIndex].question}}</view>
     </view>
-    <view class="no-data">
-        <view class="no-data-tips">您暂时没有待考试卷</view>
+    <view class="page__bd page__bd_spacing">
+        <view class="weui-cells" wx:if="{{paper.questions[currentIndex].type==='choice'}}">
+            <radio-group bindchange="radioChange" data-id="{{currentIndex}}">
+                <label class="weui-cell weui-check__label" wx:for="{{paper.questions[currentIndex].options}}" wx:key="{{item.value}}">
+                    <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}" />
+
+                    <view class="weui-cell__bd">{{item.name}}</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+                        <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+                    </view>
+                </label>
+            </radio-group>
+        </view>
     </view>
 </view>
