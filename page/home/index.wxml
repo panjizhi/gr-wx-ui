@@ -22,15 +22,25 @@
         </view>
     </view>
 
-    <view wx:elif="{{papers.length}}" class="paper-list">
-        <block wx:for-items="{{papers}}" wx:key="{{item._id}}">
-            <view class="paper-list-item">
-                <navigator url="/page/exam/index?id={{item._id}}" class="navigator">
-                    <view class="paper-title">{{item.name}}</view>
-                    <view class="navigator-arrow"></view>
-                </navigator>
+    <view wx:elif="{{papers.length}}" class="weui-panel">
+        <view class="weui-panel__hd">试题列表:</view>
+        <view class="weui-panel__bd">
+            <view class="weui-media-box weui-media-box_small-appmsg">
+                <view class="weui-cells weui-cells_in-small-appmsg">
+                    <navigator
+                        wx:for-items="{{papers}}"
+                        wx:key="{{item._id}}"
+                        url="/page/exam/index?id={{item._id}}"
+                        class="weui-cell weui-cell_access"
+                        hover-class="weui-cell_active">
+                        <view class="weui-cell__bd weui-cell_primary">
+                            <view>{{item.name}}</view>
+                        </view>
+                        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+                    </navigator>
+                </view>
             </view>
-        </block>
+        </view>
     </view>
 
     <view wx:else class="no-data">
