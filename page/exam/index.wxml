@@ -1,12 +1,11 @@
 <view class="page">
     <view class="page__hd">
-        <view class="page__title">{{paper.name}}</view>
-        <view class="page__desc">第 {{currentIndex + 1}} 题: {{paper.questions[currentIndex].question}}</view>
+        <view class="page__title">第 {{currentIndex + 1}} 题: {{currentQeustion.question}}</view>
     </view>
     <view class="page__bd page__bd_spacing">
-        <view class="weui-cells" wx:if="{{paper.questions[currentIndex].type==='choice'}}">
+        <view class="weui-cells" wx:if="{{currentQeustion.type==='choice'}}">
             <radio-group bindchange="radioChange" data-id="{{currentIndex}}">
-                <label class="weui-cell weui-check__label" wx:for="{{paper.questions[currentIndex].options}}" wx:key="{{item.value}}">
+                <label class="weui-cell weui-check__label" wx:for="{{currentQeustion.options}}" wx:key="{{item.value}}">
                     <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}" />
 
                     <view class="weui-cell__bd">{{item.name}}</view>

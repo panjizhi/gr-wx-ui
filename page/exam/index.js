@@ -6,7 +6,9 @@ Page({
     data: {
         user: null,
         currentIndex: 0,
-        paper: null
+        currentQeustion: null,
+        paper: null,
+        result: []
     },
     onLoad(options) {
         const self = this;
@@ -34,10 +36,21 @@ Page({
                     });
 
                     self.setData({
-                        paper: data
+                        paper: data,
+                        currentQeustion: questions[self.data.currentIndex]
                     });
                 }
             });
+        });
+    },
+    radioChange(e) {
+        let result = this.data.result;
+        result.push(e.detail.value);
+
+        this.setData({
+            currentIndex: this.data.currentIndex + 1,
+            currentQeustion: this.data.paper.questions[this.data.currentIndex],
+            result
         });
     }
 });
