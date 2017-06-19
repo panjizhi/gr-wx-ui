@@ -7,7 +7,7 @@
     <view wx:if="{{list.length}}" class="paper-list">
         <block wx:for-items="{{list}}" wx:key="{{item._id}}">
             <view class="paper-list-item">
-                <navigator url="/page/exam/index?id={{item._id}}" class="navigator" open-type="reLaunch">
+                <navigator url="/page/exam/index?id={{item._id}}" class="navigator">
                     <view class="paper-title">{{item.name}}</view>
                     <view class="navigator-arrow"></view>
                 </navigator>
