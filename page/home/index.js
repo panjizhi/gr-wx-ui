@@ -28,7 +28,7 @@ Page({
                     wx.hideLoading();
 
                     this.setData({
-                        papers: res.data.collections || [],
+                        papers: res.data || [],
                         ready: true
                     });
                 }
@@ -64,8 +64,8 @@ Page({
             dataType: 'json',
             data: {
                 name: self.data.realName,
-                wxid: self.data.user.openid,
-                weixin: self.data.user.nickName
+                openid: self.data.user.openid,
+                avatarUrl: self.data.user.avatarUrl
             },
             success(res){
                 const user = self.data.user;
@@ -76,7 +76,6 @@ Page({
                         'expires_in': user.expires_in,
                         'openid': user.openid,
                         '_id': data._id,
-                        'weixin': data.weixin,
                         'name': data.name,
                         'nickName': user.nickName,
                         'gender': user.gender,

@@ -21,7 +21,7 @@ Page({
             dataType: 'json',
             success: res => {
                 this.setData({
-                    list: res.data.collections
+                    list: res.data
                 });
             }
         })
