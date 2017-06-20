@@ -125,6 +125,10 @@ Page({
         });
     },
     nextQuestion() {
+        if ( this.data.currIndex + 1 === this.data.paper.questions.length ) {
+            return true;
+        }
+        
         const currIndex = this.data.currIndex + 1;
         const currQuestion = this.data.paper.questions[currIndex];
 
