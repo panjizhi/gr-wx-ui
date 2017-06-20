@@ -49,14 +49,11 @@ Page({
             });
         });
     },
-    radioChange(e) {
-        const value = e.detail.value;
-        this.updateQuestion([value]);
-
+    changeRadioAnswer(e) {
         let result = this.data.result;
         result.push({
             id: this.data.currQuestion._id,
-            answer: value
+            answer: e.detail.value
         });
         this.setData({
             result
@@ -64,14 +61,14 @@ Page({
 
         this.nextQuestion();
     },
-    checkboxChange(e) {
-        this.updateQuestion(e.detail.value || []);
+    changeCheckboxAnswser(e) {
+        this.checkQuestionOptions(e.detail.value || []);
     },
-    updateQuestion(values) {
-        let question = this.data.currQuestion;
+    checkQuestionOptions(values) {
+        let currQuestion = this.data.currQuestion;
 
-        for ( let i = 0, lenI = question.options.length; i < lenI; i++ ) {
-            let option = question.options[i];
+        for ( let i = 0, lenI = currQuestion.options.length; i < lenI; i++ ) {
+            let option = currQuestion.options[i];
             option.checked = false;
 
             for ( let j = 0, lenJ = values.length; j < lenJ; j++ ) {
@@ -83,10 +80,10 @@ Page({
         }
 
         this.setData({
-            currQuestion: question
+            currQuestion
         });
     },
-    submitChoices(e) {
+    submitMultiChoices(e) {
         const question = this.data.currQuestion;
         const values = question.options.reduce( (ret, item) => {
             if ( item.checked ) {
@@ -124,7 +121,7 @@ Page({
     },
     inputAnswerText(e) {
         this.setData({
-            answerText: e.detail.value.trim()
+            answerText: e.detail.value
         });
     },
     nextQuestion() {
