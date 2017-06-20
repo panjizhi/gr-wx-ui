@@ -1,4 +1,4 @@
-<view class="page">
+<view class="page" wx:if="{{result === null}}">
     <view class="page__hd">
         <view class="page__title">第 {{currIndex + 1}} 题: {{currQuestion.question}}</view>
     </view>
@@ -49,6 +49,24 @@
 
             <view class="weui-btn-area">
                 <button class="weui-btn" type="primary" bindtap="submitAnswerText">确定</button>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="page" wx:else>
+    <view class="page__hd">
+        <view class="page__title">{{paper.name}}</view>
+    </view>
+
+    <view class="page__bd">
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_access">
+                <view class="weui-cell__bd">考试成绩：</view>
+                <view class="weui-cell__ft">{{result.score}}</view>
+            </view>
+            <view class="weui-cell weui-cell_access">
+                <view class="weui-cell__bd">词汇评估：</view>
+                <view class="weui-cell__ft">{{result.vocabulary}}</view>
             </view>
         </view>
     </view>
