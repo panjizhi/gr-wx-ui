@@ -16,19 +16,20 @@ Page({
             mask: true
         });
 
+        const self = this;
         app.getUserInfo( user => {
-            this.setData({
+            self.setData({
                 user
             });
 
             wx.request({
-                url: `${config.requestUrl}/exam`,
+                url: `${config.requestUrl}/exam/list/${user.openid}`,
                 dataType: 'json',
                 success: res => {
                     wx.hideLoading();
 
-                    this.setData({
-                        papers: res.data || [],
+                    self.setData({
+                        papers: (res.data || []).map( item => item.paper ),
                         ready: true
                     });
                 }
@@ -36,13 +37,14 @@ Page({
         });
     },
     addRealName(e) {
+        let realName = this.data.realName;
         let msg = '';
 
-        if ( !this.data.realName ) {
+        if ( !realName ) {
             msg = '请输入真实姓名, 只需输一次, 务必确保信息有效.'
         }
 
-        if ( utils.sizeOfHans(this.data.realName) > 4 ) {
+        if ( utils.sizeOfHans(realName) > 4 ) {
             msg = '请确保名字真实有效, 最多4个汉子, 后期无法修改';
         }
 
@@ -54,6 +56,7 @@ Page({
         }
 
         const self = this;
+        const user = self.data.user;
 
         wx.request({
             url: `${config.requestUrl}/user/add`,
@@ -63,13 +66,13 @@ Page({
             },
             dataType: 'json',
             data: {
-                name: self.data.realName,
-                openid: self.data.user.openid,
-                avatarUrl: self.data.user.avatarUrl
+                name: realName,
+                openid: user.openid,
+                avatarUrl: user.avatarUrl
             },
             success(res){
-                const user = self.data.user;
                 const data = res.data || {};
+
                 self.setData({
                     user: {
                         'session_key': user.session_key,

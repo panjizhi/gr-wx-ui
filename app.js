@@ -34,7 +34,11 @@ App({
                 globalData.code = res.code;
 
                 wx.request({
-                    url: `${config.requestUrl}/code2session/${res.code}`,
+                    url: `${config.requestUrl}/user/session`,
+                    method: 'POST',
+                    data: {
+                        code: res.code
+                    },
                     dataType: 'json',
                     success: session => {
                         session.data.openid && wx.getUserInfo({

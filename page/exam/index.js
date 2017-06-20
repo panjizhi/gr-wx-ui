@@ -5,10 +5,16 @@ const app = getApp();
 Page({
     data: {
         user: null,
-        currentIndex: 0,
-        currentQeustion: null,
+        currIndex: 0,
+        currQuestion: null,
+        answerText: '',
         paper: null,
-        result: []
+        result: [],
+        typesMap: {
+            'choice': '单选题',
+            'multiple-choices': '多选题',
+            'cloze': '填空题'
+        }
     },
     onLoad(options) {
         const self = this;
@@ -19,7 +25,7 @@ Page({
             });
 
             wx.request({
-                url: `${config.requestUrl}/exam/${options.id}`,
+                url: `${config.requestUrl}/exam/detail/${options.id}`,
                 dataType: 'json',
                 success: res => {
                     let data = res.data || {};
@@ -37,24 +43,83 @@ Page({
 
                     self.setData({
                         paper: data,
-                        currentQeustion: questions[self.data.currentIndex]
+                        currQuestion: questions[self.data.currIndex]
                     });
                 }
             });
         });
     },
     radioChange(e) {
-        const selfData = this.data;
-        const currentIndex = selfData.currentIndex + 1;
-        const currentQeustion = selfData.paper.questions[currentIndex];
+        const value = e.detail.value;
+        this.updateQuestion([value]);
 
-        let result = selfData.result;
-        result.push(e.detail.value);
+        let result = this.data.result;
+        result.push({
+            id: this.data.currQuestion._id,
+            answer: value
+        });
+        this.setData({
+            result
+        });
+
+        this.nextQuestion();
+    },
+    checkboxChange(e) {
+        this.updateQuestion(e.detail.value || []);
+    },
+    updateQuestion(values) {
+        let question = this.data.currQuestion;
+
+        for ( let i = 0, lenI = question.options.length; i < lenI; i++ ) {
+            let option = question.options[i];
+            option.checked = false;
+
+            for ( let j = 0, lenJ = values.length; j < lenJ; j++ ) {
+                if ( option.value === values[j] ) {
+                    option.checked = true;
+                    break;
+                }
+            }
+        }
 
         this.setData({
-            currentIndex,
-            currentQeustion,
+            currQuestion: question
+        });
+    },
+    submitChoices(e) {
+        const question = this.data.currQuestion;
+        const values = question.options.reduce( (ret, item) => {
+            if ( item.checked ) {
+                ret.push(item.value);
+            }
+
+            return ret;
+        }, []);
+
+        let result = this.data.result;
+        result.push({
+            id: question._id,
+            answer: values.join(',')
+        });
+
+        this.setData({
             result
+        });
+
+        this.nextQuestion();
+    },
+    submitAnswerText(e) {
+        this.setData({
+            answerText: e.detail.value.trim()
+        });
+    },
+    nextQuestion() {
+        const currIndex = this.data.currIndex + 1;
+        const currQuestion = this.data.paper.questions[currIndex];
+
+        this.setData({
+            currIndex,
+            currQuestion
         });
     }
 });
