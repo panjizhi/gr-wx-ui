@@ -109,6 +109,20 @@ Page({
         this.nextQuestion();
     },
     submitAnswerText(e) {
+        let result = this.data.result;
+        result.push({
+            id: this.data.currQuestion._id,
+            answer: this.data.answerText
+        });
+
+        this.setData({
+            result,
+            answerText: ''
+        });
+
+        this.nextQuestion();
+    },
+    inputAnswerText(e) {
         this.setData({
             answerText: e.detail.value.trim()
         });

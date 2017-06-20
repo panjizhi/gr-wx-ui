@@ -42,13 +42,13 @@
             <view class="weui-cells weui-cells_after-title">
                 <view class="weui-cell weui-cell_input">
                     <view class="weui-cell__bd">
-                        <input class="weui-input" placeholder="请输入文本" bindinput="submitAnswerText" />
+                        <input class="weui-input" placeholder="请输入文本" bindinput="inputAnswerText" />
                     </view>
                 </view>
             </view>
 
             <view class="weui-btn-area">
-                <button class="weui-btn" type="primary">确定</button>
+                <button class="weui-btn" type="primary" bindtap="submitAnswerText">确定</button>
             </view>
         </view>
     </view>
