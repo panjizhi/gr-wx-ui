@@ -5,16 +5,17 @@ const app = getApp();
 Page({
     data: {
         user: null,
-        currIndex: 0,
-        currQuestion: null,
-        answerText: '',
-        paper: null,
-        result: [],
         typesMap: {
             'choice': '单选题',
             'multiple-choices': '多选题',
             'cloze': '填空题'
-        }
+        },
+        currIndex: 0,
+        currQuestion: null,
+        answerText: '',
+        paper: null,
+        answers: [],
+        result: null
     },
     onLoad(options) {
         const self = this;
@@ -50,13 +51,13 @@ Page({
         });
     },
     changeRadioAnswer(e) {
-        let result = this.data.result;
-        result.push({
+        let answers = this.data.answers;
+        answers.push({
             id: this.data.currQuestion._id,
             answer: e.detail.value
         });
         this.setData({
-            result
+            answers
         });
 
         this.nextQuestion();
@@ -93,27 +94,27 @@ Page({
             return ret;
         }, []);
 
-        let result = this.data.result;
-        result.push({
+        let answers = this.data.answers;
+        answers.push({
             id: question._id,
             answer: values.join(',')
         });
 
         this.setData({
-            result
+            answers
         });
 
         this.nextQuestion();
     },
     submitAnswerText(e) {
-        let result = this.data.result;
-        result.push({
+        let answers = this.data.answers;
+        answers.push({
             id: this.data.currQuestion._id,
             answer: this.data.answerText
         });
 
         this.setData({
-            result,
+            answers,
             answerText: ''
         });
 
@@ -125,12 +126,29 @@ Page({
         });
     },
     nextQuestion() {
-        if ( this.data.currIndex + 1 === this.data.paper.questions.length ) {
+        const selfData = this.data;
+
+        if ( selfData.currIndex + 1 === selfData.paper.questions.length ) {
+            wx.request({
+                url: `${config.requestUrl}/exam/calculate`,
+                method: 'POST',
+                data: {
+                    id: selfData.paper._id,
+                    answers: selfData.answers
+                },
+                dataType: 'json',
+                success: res => {
+                    this.setData({
+                        result: res.data
+                    });
+                }
+            });
+
             return true;
         }
-        
-        const currIndex = this.data.currIndex + 1;
-        const currQuestion = this.data.paper.questions[currIndex];
+
+        const currIndex = selfData.currIndex + 1;
+        const currQuestion = selfData.paper.questions[currIndex];
 
         this.setData({
             currIndex,
