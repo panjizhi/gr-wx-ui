@@ -4,26 +4,43 @@ const app = getApp();
 
 Page({
     data: {
-        user: null,
-        list: []
+        ready: false,
+        user: {},
+        papers: []
     },
-    onLoad(options) {
-        console.log(options.id);
-
-        app.getUserInfo( user => {
-            this.setData({
-                user
-            });
+    onLoad() {
+        wx.showLoading({
+            title: '加载中...',
+            mask: true
         });
 
-        wx.request({
-            url: `${config.requestUrl}/exam`,
-            dataType: 'json',
-            success: res => {
-                this.setData({
-                    list: res.data
-                });
-            }
-        })
+        const self = this;
+
+        app.getUserInfo( user => {
+            self.setData({
+                user
+            });
+
+            wx.request({
+                url: `${config.requestUrl}/exam/list/${user.openid}`,
+                dataType: 'json',
+                success: res => {
+                    wx.hideLoading();
+
+                    let papers = (res.data || []).map(item => {
+                        let paper = item.paper;
+                        paper._dispatchId = item._id;
+                        paper.isDone = item.isDone;
+
+                        return paper;
+                    });
+
+                    self.setData({
+                        papers: papers.filter( paper => paper.isDone ),
+                        ready: true
+                    });
+                }
+            });
+        });
     }
 });

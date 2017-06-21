@@ -28,8 +28,16 @@ Page({
                 success: res => {
                     wx.hideLoading();
 
+                    let papers = (res.data || []).map(item => {
+                        let paper = item.paper;
+                        paper._dispatchId = item._id;
+                        paper.isDone = item.isDone;
+
+                        return paper;
+                    });
+
                     self.setData({
-                        papers: (res.data || []).map( item => item.paper ),
+                        papers: papers.filter( paper => !paper.isDone ),
                         ready: true
                     });
                 }

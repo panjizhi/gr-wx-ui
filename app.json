@@ -26,7 +26,7 @@
                 "pagePath": "page/done/index",
                 "iconPath": "assets/image/icon_API.png",
                 "selectedIconPath": "assets/image/icon_API_HL.png",
-                "text": "已做试题"
+                "text": "已考试题"
             }
         ]
     },

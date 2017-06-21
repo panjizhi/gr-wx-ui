@@ -5,6 +5,7 @@ const app = getApp();
 Page({
     data: {
         user: null,
+        dispatchId: '',
         typesMap: {
             'choice': '单选题',
             'multiple-choices': '多选题',
@@ -44,7 +45,8 @@ Page({
 
                     self.setData({
                         paper: data,
-                        currQuestion: questions[self.data.currIndex]
+                        currQuestion: questions[self.data.currIndex],
+                        dispatchId: options.dispatchId
                     });
                 }
             });
@@ -133,8 +135,10 @@ Page({
                 url: `${config.requestUrl}/exam/calculate`,
                 method: 'POST',
                 data: {
-                    id: selfData.paper._id,
-                    answers: selfData.answers
+                    examId: selfData.paper._id,
+                    answers: selfData.answers,
+                    dispatchId: selfData.dispatchId,
+                    userId: selfData.user._id
                 },
                 dataType: 'json',
                 success: res => {

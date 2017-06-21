@@ -23,14 +23,13 @@
     </view>
 
     <view wx:elif="{{papers.length}}" class="weui-panel">
-        <view class="weui-panel__hd">试题列表:</view>
         <view class="weui-panel__bd">
             <view class="weui-media-box weui-media-box_small-appmsg">
                 <view class="weui-cells weui-cells_in-small-appmsg">
                     <navigator
                         wx:for-items="{{papers}}"
                         wx:key="{{item._id}}"
-                        url="/page/exam/index?id={{item._id}}"
+                        url="/page/exam/index?id={{item._id}}&dispatchId={{item._dispatchId}}"
                         class="weui-cell weui-cell_access"
                         hover-class="weui-cell_active">
                         <view class="weui-cell__bd weui-cell_primary">
@@ -44,6 +43,6 @@
     </view>
 
     <view wx:else class="no-data">
-        <view class="no-data-tips">您暂时没有待考试卷</view>
+        <view class="no-data-tips">没有待考试题</view>
     </view>
 </view>
