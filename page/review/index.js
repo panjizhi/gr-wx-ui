@@ -25,7 +25,7 @@ Page({
             });
 
             wx.request({
-                url: `${config.requestUrl}/exam/detail/${options.id}`,
+                url: `${config.requestUrl}/exam/review/${options.id}`,
                 dataType: 'json',
                 success: res => {
                     let data = res.data || {};
@@ -33,10 +33,12 @@ Page({
 
                     questions.forEach( item => {
                         item.options = (item.options || []).map( option => {
+                            let value = option.charAt(0).toUpperCase();
+
                             return {
-                                value: option.charAt(0).toUpperCase(),
+                                value,
                                 name: option,
-                                checked: false
+                                checked: value === item.result
                             };
                         });
                     });

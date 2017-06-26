@@ -2,6 +2,7 @@
     "pages": [
         "page/home/index",
         "page/examination/index",
+        "page/review/index",
         "page/accomplish/index"
     ],
     "window": {
