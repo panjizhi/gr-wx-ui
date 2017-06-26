@@ -29,7 +29,7 @@
                     <navigator
                         wx:for-items="{{papers}}"
                         wx:key="{{item._id}}"
-                        url="/page/exam/index?id={{item._id}}&dispatchId={{item._dispatchId}}"
+                        url="/page/examination/index?id={{item._id}}&dispatchId={{item._dispatchId}}"
                         class="weui-cell weui-cell_access"
                         hover-class="weui-cell_active">
                         <view class="weui-cell__bd weui-cell_primary">
