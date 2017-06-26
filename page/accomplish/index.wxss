@@ -30,6 +30,10 @@
     border-radius: 4rpx;
 }
 
+.weui-panel {
+    margin-bottom: 64px;
+}
+
 .weui-cell:before {
     right: 15px;
     border-top-style: dashed;

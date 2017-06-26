@@ -18,10 +18,12 @@
                     <view class="weui-cell__bd">成绩排行</view>
                     <view class="weui-cell__ft weui-cell__ft_in-access"></view>
                 </view>
-                <view class="weui-cell weui-cell_access weui-cell_link">
+                <navigator
+                    class="weui-cell weui-cell_access weui-cell_link"
+                    url="/page/review/index?id={{item.paper._id}}">
                     <view class="weui-cell__bd">错题回顾</view>
                     <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-                </view>
+                </navigator>
             </view>
         </view>
     </view>
