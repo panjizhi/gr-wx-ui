@@ -22,21 +22,13 @@ Page({
             });
 
             wx.request({
-                url: `${config.requestUrl}/exam/list/${user.openid}`,
+                url: `${config.requestUrl}/exam/accomplish/${user.openid}`,
                 dataType: 'json',
                 success: res => {
                     wx.hideLoading();
 
-                    let papers = (res.data || []).map(item => {
-                        let paper = item.paper;
-                        paper._dispatchId = item._id;
-                        paper.isDone = item.isDone;
-
-                        return paper;
-                    });
-
                     self.setData({
-                        papers: papers.filter( paper => paper.isDone ),
+                        papers: res.data || [],
                         ready: true
                     });
                 }
