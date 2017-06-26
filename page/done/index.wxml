@@ -4,21 +4,23 @@
         <view class="user-name">{{user.name || user.nickName}}</view>
     </view>
 
-    <view wx:if="{{papers.length}}" class="weui-panel">
-        <view class="weui-panel__bd">
-            <view class="weui-media-box weui-media-box_small-appmsg">
-                <view class="weui-cells weui-cells_in-small-appmsg">
-                    <navigator
-                        wx:for-items="{{papers}}"
-                        wx:key="{{item._id}}"
-                        url="/page/exam/index?id={{item._id}}&dispatchId={{item._dispatchId}}"
-                        class="weui-cell weui-cell_access"
-                        hover-class="weui-cell_active">
-                        <view class="weui-cell__bd weui-cell_primary">
-                            <view>{{item.name}}</view>
-                        </view>
-                        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-                    </navigator>
+    <view wx:if="{{papers.length}}" class="weui-panel weui-panel_access">
+        <view
+            class="weui-panel__bd"
+            wx:for-items="{{papers}}"
+            wx:key="{{item._id}}">
+            <view class="weui-media-box weui-media-box_text">
+                <view class="weui-media-box__title weui-media-box__title_in-text">{{item.name}}</view>
+                <view class="weui-media-box__desc">成绩：88, 词汇量: 345</view>
+            </view>
+            <view class="weui-panel__ft">
+                <view class="weui-cell weui-cell_access weui-cell_link">
+                    <view class="weui-cell__bd">成绩排行</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+                </view>
+                <view class="weui-cell weui-cell_access weui-cell_link">
+                    <view class="weui-cell__bd">错题回顾</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
                 </view>
             </view>
         </view>
