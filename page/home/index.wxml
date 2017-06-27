@@ -15,7 +15,7 @@
                 </view>
             </view>
         </view>
-        <view class="weui-cells__tips">姓名一旦填写, 将不能修改, 请确保信息真实.</view>
+        <view class="weui-cells__tips">姓名保存后不能修改, 请确保信息真实</view>
 
         <view class="weui-btn-area">
             <button class="weui-btn" type="primary" bindtap="addRealName">保存</button>

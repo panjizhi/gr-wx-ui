@@ -71,8 +71,8 @@ function sizeOfHans(str) {
 }
 
 module.exports = {
-    formatTime: formatTime,
-    formatLocation: formatLocation,
-    assign: assign,
-    sizeOfHans: sizeOfHans
+    formatTime,
+    formatLocation,
+    assign,
+    sizeOfHans
 }

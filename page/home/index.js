@@ -1,6 +1,5 @@
 const config = require('../../config');
 const utils = require('../../util/util');
-
 const app = getApp();
 
 Page({
@@ -29,16 +28,13 @@ Page({
                 success: res => {
                     wx.hideLoading();
 
-                    let papers = (res.data || []).map(item => {
-                        let paper = item.paper;
-                        paper._dispatchId = item._id;
-                        paper.isDone = item.isDone;
-
-                        return paper;
-                    });
-
                     self.setData({
-                        papers: papers.filter( paper => !paper.isDone ),
+                        papers: (res.data || []).map(item => {
+                            let paper = item.paper;
+                            paper._dispatchId = item._id;
+                            
+                            return paper;
+                        }),
                         ready: true
                     });
                 }
