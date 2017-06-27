@@ -1,4 +1,3 @@
 .weui-cell::before {
     left: 0;
-    border-bottom-style: dashed;
 }

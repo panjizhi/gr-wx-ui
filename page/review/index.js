@@ -40,15 +40,18 @@ Page({
                     const errors = self.data.errors || {};
 
                     questions.forEach( item => {
+                        let errOptions = errors[item._id] ? errors[item._id].split(',') : [];
+
                         item.options = (item.options || []).map( option => {
                             let value = option.charAt(0).toUpperCase();
-                            let isErrAnswer = value === errors[item._id];
+                            let isAnswer = value === item.result;
+                            let isErrAnswer = errOptions.indexOf(value) !== -1;
 
                             return {
                                 value,
                                 name: option,
-                                checked: value === item.result || isErrAnswer,
-                                style: isErrAnswer ? 'color:#f00;' : ''
+                                checked: isAnswer || isErrAnswer,
+                                style: isErrAnswer ? 'color:#f00;' : ( isAnswer ? 'color:#1aad19;' : '' )
                             };
                         });
                     });

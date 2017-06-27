@@ -4,9 +4,9 @@ const app = getApp();
 
 Page({
     data: {
-        ready: false,
-        user: {},
-        papers: []
+        user: null,
+        papers: [],
+        ready: false
     },
     onLoad() {
         wx.showLoading({
