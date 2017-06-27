@@ -8,25 +8,25 @@
     "window": {
         "navigationBarTextStyle": "black",
         "navigationBarTitleText": "格润教育",
-        "navigationBarBackgroundColor": "#F8F8F8",
-        "backgroundColor": "#F8F8F8"
+        "navigationBarBackgroundColor": "#f8f8f8",
+        "backgroundColor": "#f8f8f8"
     },
     "tabBar": {
-        "color": "#7A7E83",
+        "color": "#7a7e83",
         "selectedColor": "#3cc51f",
         "borderStyle": "black",
-        "backgroundColor": "#ffffff",
+        "backgroundColor": "#fff",
         "list": [
             {
                 "pagePath": "page/home/index",
-                "iconPath": "assets/image/icon_component.png",
-                "selectedIconPath": "assets/image/icon_component_HL.png",
+                "iconPath": "assets/image/examination.png",
+                "selectedIconPath": "assets/image/examination-active.png",
                 "text": "待考试题"
             },
             {
                 "pagePath": "page/accomplish/index",
-                "iconPath": "assets/image/icon_API.png",
-                "selectedIconPath": "assets/image/icon_API_HL.png",
+                "iconPath": "assets/image/review.png",
+                "selectedIconPath": "assets/image/review-active.png",
                 "text": "已考试题"
             }
         ]

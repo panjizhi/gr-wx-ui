@@ -1,7 +1,7 @@
 @import 'assets/weui/reset.wxss';
 @import 'assets/weui/weui.wxss';
 
-page{
+page {
     background-color: #F8F8F8;
     font-size: 16px;
     font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
@@ -33,7 +33,11 @@ page{
 
 .page__desc {
     margin-top: 5px;
-    color: #888888;
+    color: #888;
     text-align: left;
     font-size: 14px;
+}
+
+.weui-panel {
+    margin-bottom: 80rpx;
 }
