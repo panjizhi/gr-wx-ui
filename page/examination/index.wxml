@@ -6,7 +6,7 @@
         <view class="weui-cells__title">** {{typesMap[currQuestion.type]}} **</view>
 
         <view class="weui-cells weui-cells_after-title" wx:if="{{currQuestion.type==='choice'}}">
-            <radio-group bindchange="changeRadioAnswer" data-id="{{currIndex}}">
+            <radio-group bindchange="radioChange">
                 <label class="weui-cell weui-check__label" wx:for="{{currQuestion.options}}" wx:key="{{item.value}}">
                     <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}" />
 
@@ -20,7 +20,7 @@
 
         <view wx:elif="{{currQuestion.type==='multiple-choices'}}">
             <view class="weui-cells weui-cells_after-title">
-                <checkbox-group bindchange="changeCheckboxAnswser" data-id="{{currIndex}}">
+                <checkbox-group bindchange="checkboxChange">
                     <label class="weui-cell weui-check__label" wx:for="{{currQuestion.options}}" wx:key="{{item.value}}">
                         <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
 
@@ -34,7 +34,7 @@
             </view>
 
             <view class="weui-btn-area">
-                <button class="weui-btn" type="primary" bindtap="submitMultiChoices">确认</button>
+                <button class="weui-btn" type="primary" bindtap="checkboxSubmit">确认</button>
             </view>
         </view>
 
@@ -42,13 +42,13 @@
             <view class="weui-cells weui-cells_after-title">
                 <view class="weui-cell weui-cell_input">
                     <view class="weui-cell__bd">
-                        <input class="weui-input" placeholder="请输入文本" bindinput="inputAnswerText" value="{{answerText}}" />
+                        <input class="weui-input" placeholder="请输入文本" bindinput="clozeTextInput" value="{{answerText}}" />
                     </view>
                 </view>
             </view>
 
             <view class="weui-btn-area">
-                <button class="weui-btn" type="primary" bindtap="submitAnswerText">确定</button>
+                <button class="weui-btn" type="primary" bindtap="clozeTextSubmit">确定</button>
             </view>
         </view>
     </view>

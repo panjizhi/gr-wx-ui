@@ -49,7 +49,7 @@ Page({
             });
         });
     },
-    changeRadioAnswer(e) {
+    radioChange(e) {
         let answers = this.data.answers;
 
         answers.push({
@@ -63,10 +63,10 @@ Page({
 
         this.nextQuestion();
     },
-    changeCheckboxAnswser(e) {
-        this.checkQuestionOptions(e.detail.value || []);
+    checkboxChange(e) {
+        this.checkedboxStatusUpdate(e.detail.value || []);
     },
-    checkQuestionOptions(values) {
+    checkedboxStatusUpdate(values) {
         let currQuestion = this.data.currQuestion;
 
         for ( let i = 0, lenI = currQuestion.options.length; i < lenI; i++ ) {
@@ -85,7 +85,7 @@ Page({
             currQuestion
         });
     },
-    submitMultiChoices(e) {
+    checkboxSubmit(e) {
         const question = this.data.currQuestion;
         const values = question.options.reduce( (ret, item) => {
             if ( item.checked ) {
@@ -98,7 +98,7 @@ Page({
         let answers = this.data.answers;
         answers.push({
             id: question._id,
-            answer: values.join(',')
+            answer: values.join(',') // 多选结果逗号分隔
         });
 
         this.setData({
@@ -107,7 +107,7 @@ Page({
 
         this.nextQuestion();
     },
-    submitAnswerText(e) {
+    clozeTextSubmit(e) {
         let answers = this.data.answers;
         
         answers.push({
@@ -122,7 +122,7 @@ Page({
 
         this.nextQuestion();
     },
-    inputAnswerText(e) {
+    clozeTextInput(e) {
         this.setData({
             answerText: e.detail.value
         });
