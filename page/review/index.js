@@ -1,23 +1,30 @@
 const config = require('../../config');
+const typesMap = config.questionTypes;
 
 const app = getApp();
 
-const typesMap = {
-    'choice': '单选题',
-    'multiple-choices': '多选题',
-    'cloze': '填空题'
-};
-
 Page({
     data: {
+        typesMap,
         paper: null,
         currQuestion: null,
         currIndex: 0,
         user: null,
-        typesMap
+        errors: {}
     },
     onLoad(options) {
         const self = this;
+
+        try {
+            let errors = JSON.parse(options.errJSON) || [];
+
+            self.setData({
+                errors: errors.reduce((result, item, index) => {
+                    result[item.id] = item.answer;
+                    return result;
+                }, {})
+            });
+        } catch (e) {}
 
         app.getUserInfo( user => {
             self.setData({
@@ -28,17 +35,20 @@ Page({
                 url: `${config.requestUrl}/exam/review/${options.id}`,
                 dataType: 'json',
                 success: res => {
-                    let data = res.data || {};
-                    let questions = data.questions || [];
+                    const data = res.data || {};
+                    const questions = data.questions || [];
+                    const errors = self.data.errors || {};
 
                     questions.forEach( item => {
                         item.options = (item.options || []).map( option => {
                             let value = option.charAt(0).toUpperCase();
+                            let isErrAnswer = value === errors[item._id];
 
                             return {
                                 value,
                                 name: option,
-                                checked: value === item.result
+                                checked: value === item.result || isErrAnswer,
+                                style: isErrAnswer ? 'color:#f00;' : ''
                             };
                         });
                     });

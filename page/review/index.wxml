@@ -3,11 +3,15 @@
         <view class="page__title">第 {{currIndex + 1}} 题: {{currQuestion.question}}</view>
     </view>
     <view class="page__bd page__bd_spacing" bindtap="nextQuestion">
-        <view class="weui-cells__title">** {{typesMap[currQuestion.type]}} **</view>
+        <view class="weui-cells__title">** {{typesMap[currQuestion.type]}}, 正确答案: {{currQuestion.result}} **</view>
 
         <view class="weui-cells weui-cells_after-title" wx:if="{{currQuestion.type==='choice'}}">
             <radio-group data-id="{{currIndex}}">
-                <label class="weui-cell weui-check__label" wx:for="{{currQuestion.options}}" wx:key="{{item.value}}">
+                <label
+                    class="weui-cell weui-check__label"
+                    style="{{item.style}}"
+                    wx:for="{{currQuestion.options}}"
+                    wx:key="{{item.value}}">
                     <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}" />
 
                     <view class="weui-cell__bd">{{item.name}}</view>
@@ -21,7 +25,11 @@
         <view wx:elif="{{currQuestion.type==='multiple-choices'}}">
             <view class="weui-cells weui-cells_after-title">
                 <checkbox-group data-id="{{currIndex}}">
-                    <label class="weui-cell weui-check__label" wx:for="{{currQuestion.options}}" wx:key="{{item.value}}">
+                    <label
+                        class="weui-cell weui-check__label"
+                        wx:for="{{currQuestion.options}}"
+                        wx:key="{{item.value}}"
+                        style="{{item.style}}">
                         <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
 
                         <view class="weui-cell__hd weui-check__hd_in-checkbox">

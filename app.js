@@ -6,14 +6,17 @@ App({
         code: '',
         userInfo: null
     },
-    onLaunch() {
+    onLaunch(options) {
         console.log('Launch App');
     },
-    onShow() {
+    onShow(options) {
         console.log('Display App');
     },
-    onHide() {
+    onHide(options) {
         console.log('Hide App');
+    },
+    onError(msg) {
+        console.log(msg);
     },
     getUserInfo(callback) {
         callback = callback || function () {};

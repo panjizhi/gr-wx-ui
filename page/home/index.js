@@ -17,6 +17,7 @@ Page({
         });
 
         const self = this;
+
         app.getUserInfo( user => {
             self.setData({
                 user
@@ -49,11 +50,11 @@ Page({
         let msg = '';
 
         if ( !realName ) {
-            msg = '请输入真实姓名, 只需输一次, 务必确保信息有效.'
+            msg = '请输入真实姓名, 保存后不能修改, 请确保信息真实有效'
         }
 
         if ( utils.sizeOfHans(realName) > 4 ) {
-            msg = '请确保名字真实有效, 最多4个汉子, 后期无法修改';
+            msg = '请确保名字真实有效, 最多4个汉子, 保存后不能修改';
         }
 
         if ( msg.length > 0 ) {

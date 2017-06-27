@@ -1,4 +1,5 @@
 const config = require('../../config');
+const typesMap = config.questionTypes;
 
 const app = getApp();
 
@@ -6,11 +7,7 @@ Page({
     data: {
         user: null,
         dispatchId: '',
-        typesMap: {
-            'choice': '单选题',
-            'multiple-choices': '多选题',
-            'cloze': '填空题'
-        },
+        typesMap,
         currIndex: 0,
         currQuestion: null,
         answerText: '',
@@ -54,10 +51,12 @@ Page({
     },
     changeRadioAnswer(e) {
         let answers = this.data.answers;
+
         answers.push({
             id: this.data.currQuestion._id,
             answer: e.detail.value
         });
+
         this.setData({
             answers
         });
@@ -110,6 +109,7 @@ Page({
     },
     submitAnswerText(e) {
         let answers = this.data.answers;
+        
         answers.push({
             id: this.data.currQuestion._id,
             answer: this.data.answerText
