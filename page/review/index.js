@@ -63,6 +63,10 @@ Page({
     },
     nextQuestion() {
         const selfData = this.data;
+        if ( selfData.currIndex === selfData.paper.questions.length - 1 ) {
+            return;
+        }
+        
         const currIndex = selfData.currIndex + 1;
         const currQuestion = selfData.paper.questions[currIndex];
 

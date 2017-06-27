@@ -51,5 +51,11 @@
                 </view>
             </view>
         </view>
+
+        <view wx:if="{{(currIndex + 1) === paper.questions.length}}" class="weui-btn-area">
+            <navigator open-type="navigateBack">
+                <button class="weui-btn" type="primary">返回</button>
+            </navigator>
+        </view>
     </view>
 </view>
