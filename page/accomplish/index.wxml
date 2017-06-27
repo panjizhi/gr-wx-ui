@@ -25,6 +25,6 @@
     </view>
 
     <view wx:else class="no-data">
-        <view class="no-data-tips">暂无数据</view>
+        <view class="no-data-tips">暂无试题</view>
     </view>
 </view>

@@ -43,6 +43,6 @@
     </view>
 
     <view wx:else class="no-data">
-        <view class="no-data-tips">没有待考试题</view>
+        <view class="no-data-tips">暂无试题</view>
     </view>
 </view>
