@@ -3,7 +3,6 @@ const utils = require('util/util');
 
 App({
     globalData: {
-        code: '',
         userInfo: null
     },
     onLaunch(options) {
@@ -22,7 +21,7 @@ App({
         callback = callback || function () {};
 
         if ( typeof callback !== 'function' ) {
-            return false;
+            return;
         }
 
         let globalData = this.globalData;
@@ -34,14 +33,12 @@ App({
 
         wx.login({
             success: res => {
-                globalData.code = res.code;
+                const code = res.code;
 
                 wx.request({
                     url: `${config.requestUrl}/user/session`,
                     method: 'POST',
-                    data: {
-                        code: res.code
-                    },
+                    data: { code },
                     dataType: 'json',
                     success: session => {
                         session.data.openid && wx.getUserInfo({
