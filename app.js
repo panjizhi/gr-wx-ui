@@ -5,18 +5,6 @@ App({
     globalData: {
         userInfo: null
     },
-    onLaunch(options) {
-        console.log('Launch App');
-    },
-    onShow(options) {
-        console.log('Display App');
-    },
-    onHide(options) {
-        console.log('Hide App');
-    },
-    onError(msg) {
-        console.log(msg);
-    },
     getUserInfo(callback) {
         callback = callback || function () {};
 
