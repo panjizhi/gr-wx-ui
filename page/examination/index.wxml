@@ -20,7 +20,7 @@
 
         <view wx:elif="{{currQuestion.type==='multiple-choices'}}">
             <view class="weui-cells weui-cells_after-title">
-                <checkbox-group bindchange="checkboxChange">
+                <checkbox-group bindchange="checkboxStatusUpdate">
                     <label class="weui-cell weui-check__label" wx:for="{{currQuestion.options}}" wx:key="{{item.value}}">
                         <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
 
