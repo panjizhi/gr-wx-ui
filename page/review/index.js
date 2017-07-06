@@ -1,25 +1,22 @@
 const config = require('../../config');
-const typesMap = config.questionTypes;
 
 const app = getApp();
 
 Page({
     data: {
-        typesMap,
-        paper: null,
-        currQuestion: null,
-        currIndex: 0,
         user: null,
-        errors: {}
+        typesMap: config.questionTypes,
+        paper: null,
+        errors: null
     },
     onLoad(options) {
         const self = this;
 
         try {
-            let errors = JSON.parse(options.errJSON) || [];
+            let errJSON = JSON.parse(options.errJSON) || [];
 
             self.setData({
-                errors: errors.reduce((result, item, index) => {
+                errors: errJSON.reduce((result, item, index) => {
                     result[item.id] = item.answer;
                     return result;
                 }, {})
@@ -40,18 +37,20 @@ Page({
                     const errors = self.data.errors || {};
 
                     questions.forEach( item => {
-                        let errOptions = errors[item._id] ? errors[item._id].split(',') : [];
+                        let errorOptions = errors[item._id] ? errors[item._id].split(',') : [];
+                        let isCorrect = errorOptions.length === 0;
+                        let correctOptions = item.result.split(',');
 
                         item.options = (item.options || []).map( option => {
                             let value = option.charAt(0).toUpperCase();
-                            let isAnswer = value === item.result;
-                            let isErrAnswer = errOptions.indexOf(value) !== -1;
+                            let correct = isCorrect && correctOptions.indexOf(value) > -1;
+                            let error = errorOptions.indexOf(value) > -1;
 
                             return {
                                 value,
                                 name: option,
-                                checked: isAnswer || isErrAnswer,
-                                style: isErrAnswer ? 'color:#f00;' : ( isAnswer ? 'color:#1aad19;' : '' )
+                                checked: correct || error,
+                                style: error ? 'color:#f00;' : ( correct ? 'color:#1aad19;' : '' )
                             };
                         });
                     });
@@ -62,20 +61,6 @@ Page({
                     });
                 }
             });
-        });
-    },
-    nextQuestion() {
-        const selfData = this.data;
-        if ( selfData.currIndex === selfData.paper.questions.length - 1 ) {
-            return;
-        }
-        
-        const currIndex = selfData.currIndex + 1;
-        const currQuestion = selfData.paper.questions[currIndex];
-
-        this.setData({
-            currIndex,
-            currQuestion
         });
     }
 });

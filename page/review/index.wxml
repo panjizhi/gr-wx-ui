@@ -1,16 +1,19 @@
 <view class="page">
     <view class="page__hd">
-        <view class="page__title">第 {{currIndex + 1}} 题: {{currQuestion.question}}</view>
+        <view class="page__title">{{paper.name}}</view>
     </view>
-    <view class="page__bd page__bd_spacing" bindtap="nextQuestion">
-        <view class="weui-cells__title">** {{typesMap[currQuestion.type]}}, 正确答案: {{currQuestion.result}} **</view>
+    <view class="page__bd page__bd_spacing"
+        wx:for="{{paper.questions}}"
+        wx:for-index="idx"
+        wx:for-item="question">
+        <view class="weui-cells__title">第 {{idx + 1}} 题（{{typesMap[question.type]}}）：{{question.question}} （答案：{{question.result}}）</view>
 
-        <view class="weui-cells weui-cells_after-title" wx:if="{{currQuestion.type==='choice'}}">
-            <radio-group data-id="{{currIndex}}">
+        <view class="weui-cells weui-cells_after-title" wx:if="{{question.type==='choice'}}">
+            <radio-group>
                 <label
                     class="weui-cell weui-check__label"
                     style="{{item.style}}"
-                    wx:for="{{currQuestion.options}}"
+                    wx:for="{{question.options}}"
                     wx:key="{{item.value}}">
                     <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}" />
 
@@ -22,12 +25,12 @@
             </radio-group>
         </view>
 
-        <view wx:elif="{{currQuestion.type==='multiple-choices'}}">
+        <view wx:elif="{{question.type==='multiple-choices'}}">
             <view class="weui-cells weui-cells_after-title">
-                <checkbox-group data-id="{{currIndex}}">
+                <checkbox-group>
                     <label
                         class="weui-cell weui-check__label"
-                        wx:for="{{currQuestion.options}}"
+                        wx:for="{{question.options}}"
                         wx:key="{{item.value}}"
                         style="{{item.style}}">
                         <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
@@ -42,18 +45,18 @@
             </view>
         </view>
 
-        <view wx:elif="{{currQuestion.type==='cloze'}}">
+        <view wx:elif="{{question.type==='cloze'}}">
             <view class="weui-cells weui-cells_after-title">
                 <view class="weui-cell weui-cell_input">
                     <view class="weui-cell__bd cloze-answer">
-                        <view wx:if="errors[currQuestion._id]" style="color:#f00;">{{errors[currQuestion._id]}}</view>
-                        <view wx:else style="color:#1aad19;">{{currQuestion.result}}</view>
+                        <view wx:if="errors[question._id]" style="color:#f00;">{{errors[question._id]}}</view>
+                        <view wx:else style="color:#1aad19;">{{question.result}}</view>
                     </view>
                 </view>
             </view>
         </view>
 
-        <view wx:if="{{(currIndex + 1) === paper.questions.length}}" class="weui-btn-area">
+        <view wx:if="{{(idx + 1) === paper.questions.length}}" class="weui-btn-area">
             <navigator open-type="navigateBack">
                 <button class="weui-btn" type="primary">返回</button>
             </navigator>

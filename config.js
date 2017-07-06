@@ -11,9 +11,9 @@ const config = {
     requestUrl: `https://${host}/api`,
 
     questionTypes: {
-        'choice': '单选题',
-        'multiple-choices': '多选题',
-        'cloze': '填空题'
+        'choice': '单选',
+        'multiple-choices': '多选',
+        'cloze': '填空'
     }
 };
 
