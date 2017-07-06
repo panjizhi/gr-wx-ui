@@ -1,5 +1,6 @@
 const config = require('../../config');
-const utils = require('../../util/util');
+const utils  = require('../../util/util');
+
 const app = getApp();
 
 Page({
