@@ -5,7 +5,7 @@ const app = getApp();
 
 Page({
     data: {
-        user: {},
+        user: null,
         realName: '',
         papers: [],
         ready: false
