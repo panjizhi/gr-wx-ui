@@ -1,5 +1,5 @@
 const config = require('config');
-const utils = require('util/util');
+const utils  = require('util/util');
 
 App({
     globalData: {
@@ -26,12 +26,14 @@ App({
                 wx.request({
                     url: `${config.requestUrl}/user/session`,
                     method: 'POST',
-                    data: { code },
+                    data: {
+                        code
+                    },
                     dataType: 'json',
                     success: session => {
                         session.data.openid && wx.getUserInfo({
-                            success: res => {
-                                globalData.userInfo = utils.assign(session.data, res.userInfo);
+                            success: infos => {
+                                globalData.userInfo = utils.assign(session.data, infos.userInfo);
                                 return callback(globalData.userInfo);
                             }
                         });
