@@ -5,8 +5,9 @@
     <view class="page__bd page__bd_spacing"
         wx:for="{{paper.questions}}"
         wx:for-index="idx"
+        wx:key="question._id"
         wx:for-item="question">
-        <view class="weui-cells__title">第 {{idx + 1}} 题（{{typesMap[question.type]}}）：{{question.question}} （答案：{{question.result}}）</view>
+        <view class="weui-cells__title">第 {{idx + 1}} 题（{{typesMap[question.type]}}）：{{question.name}} （答案：{{question.answer}}）</view>
 
         <view class="weui-cells weui-cells_after-title" wx:if="{{question.type==='choice'}}">
             <radio-group>

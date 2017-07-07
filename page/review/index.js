@@ -36,15 +36,20 @@ Page({
                     const questions = data.questions || [];
                     const errors = self.data.errors || {};
 
-                    questions.forEach( item => {
-                        let errorOptions = errors[item._id] ? errors[item._id].split(',') : [];
-                        let isCorrect = errorOptions.length === 0;
-                        let correctOptions = item.result.split(',');
+                    questions.forEach( question => {
+                        const qid = question._id;
+                        const options = {
+                            correct: question.answer.split(',').map( value => value.trim()),
+                            error: typeof errors[qid] !== 'undefined'
+                                ? errors[qid].split(',').map( value => value.trim())
+                                : []
+                        };                        
+                        const isCorrect = options.error.length === 0;
 
-                        item.options = (item.options || []).map( option => {
+                        question.options = (question.options || []).map( option => {
                             let value = option.charAt(0).toUpperCase();
-                            let correct = isCorrect && correctOptions.indexOf(value) > -1;
-                            let error = errorOptions.indexOf(value) > -1;
+                            let correct = isCorrect && options.correct.indexOf(value) > -1;
+                            let error = options.error.indexOf(value) > -1;
 
                             return {
                                 value,
