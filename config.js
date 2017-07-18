@@ -2,7 +2,7 @@
  * 配置文件
  */
 
-const host = 'jizhi.work';
+const host = 'gerun.mobi';
 
 const config = {
 
