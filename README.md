@@ -1,3 +1,3 @@
-# wx-demo
+# gr-wx-ui
 
-wx-demo
+gr-wx-ui
