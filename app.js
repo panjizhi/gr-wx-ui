@@ -15,7 +15,7 @@ App({
         let globalData = this.globalData;
         let userInfo = globalData.userInfo || {};
 
-        if ( userInfo.openid ) {
+        if ( userInfo.name ) {
             return callback(userInfo);
         }
 

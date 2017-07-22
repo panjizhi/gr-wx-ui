@@ -10,16 +10,20 @@ Page({
         papers: [],
         ready: false
     },
+    onShow() {
+        this.updateData();
+    },
     onLoad() {
         wx.showLoading({
             title: '加载中...',
             mask: true
         });
 
-        const self = this;
-
+        this.updateData();
+    },
+    updateData() {
         app.getUserInfo( user => {
-            self.setData({
+            this.setData({
                 user
             });
 
@@ -29,7 +33,7 @@ Page({
                 success: res => {
                     wx.hideLoading();
 
-                    self.setData({
+                    this.setData({
                         papers: (res.data || []).map(item => {
                             let paper = item.paper;
                             paper._dispatchId = item._id;
