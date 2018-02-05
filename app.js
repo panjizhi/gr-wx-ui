@@ -1,43 +1,38 @@
 const config = require('config');
-const utils  = require('util/util');
+const utils = require('util/util');
 
 App({
     globalData: {
         userInfo: null
     },
     getUserInfo(callback) {
-        callback = callback || function () {};
+        callback = callback || function () { };
 
-        if ( typeof callback !== 'function' ) {
+        if (typeof callback !== 'function') {
             return;
         }
 
         let globalData = this.globalData;
         let userInfo = globalData.userInfo || {};
 
-        if ( userInfo.name ) {
+        if (userInfo.name) {
             return callback(userInfo);
         }
 
         wx.login({
             success: res => {
                 const code = res.code;
-
-                wx.request({
-                    url: `${config.requestUrl}/user/session`,
-                    method: 'POST',
-                    data: {
-                        code
-                    },
-                    dataType: 'json',
-                    success: session => {
-                        session.data.openid && wx.getUserInfo({
-                            success: infos => {
-                                globalData.userInfo = utils.assign(session.data, infos.userInfo);
-                                return callback(globalData.userInfo);
-                            }
-                        });
+                utils.AsyncRequest('user/session', { code }, (err, dat) => {
+                    if (err) {
+                        return;
                     }
+
+                    wx.getUserInfo({
+                        success: infos => {
+                            globalData.userInfo = utils.assign(dat, infos.userInfo);
+                            return callback(globalData.userInfo);
+                        }
+                    });
                 });
             }
         });

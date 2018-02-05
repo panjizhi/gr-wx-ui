@@ -1,4 +1,6 @@
 const config = require('../../config');
+const utils = require('../../util/util.js');
+const moment = require('../../util/moment.min');
 
 const app = getApp();
 
@@ -10,6 +12,7 @@ Page({
     },
     onShow() {
         this.updateData();
+
     },
     onLoad() {
         wx.showLoading({
@@ -20,23 +23,29 @@ Page({
         this.updateData();
     },
     updateData() {
-        app.getUserInfo( user => {
+        app.getUserInfo(user => {
             this.setData({
                 user
             });
 
-            wx.request({
-                url: `${config.requestUrl}/exam/accomplish/${user.openid}`,
-                dataType: 'json',
-                success: res => {
-                    wx.hideLoading();
+            utils.AsyncRequest('exam/accomplish', { openid: user.openid }, (err, dat) => {
+                wx.hideLoading();
 
-                    this.setData({
-                        papers: res.data || [],
-                        ready: true
-                    });
+                if (err) {
+                    return;
                 }
+
+                const defaultTimestamp = moment('2000-01-01 00:00:00').unix();
+                dat.forEach((ins) => {
+                    ins.begin_time = moment.unix(ins.begin_time).format('YYYY-MM-DD HH:mm:ss');
+                    ins.duration = moment.unix(defaultTimestamp + ins.duration).format('HH:mm:ss');
+                });
+
+                this.setData({
+                    papers: dat || [],
+                    ready: true
+                });
             });
-        });        
+        });
     }
 });

@@ -1,40 +1,54 @@
 .user-infos {
-    padding: 80rpx;
-    text-align: center;
+    height: 140px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .user-logo {
-    width: 112rpx;
-    height: 112rpx;
+    width: 64px;
+    height: 64px;
     border-radius: 100%;
 }
 
 .user-name {
-    margin: 20rpx 0 0;
+    margin-top: 12px;
     color: #666;
-    font-size: 28rpx;
 }
 
-.paper-list, .no-data {
-    padding: 0 30rpx 40rpx;
-    display: block;
+.weui-gr-title {
+    font-size: 14px;
+    justify-content: flex-start;
+    align-items: center;
+    display: flex;
 }
 
-.no-data {
-    text-align: center;
+.weui-gr-title:not(:first-child) {
+    margin-top: 5px;
+}
+
+.weui-gr-title > view:not(:first-child) {
+    margin-left: 20px;
+}
+
+.weui-cells {
+    margin: 0 0 20px !important;
+}
+
+.weiui-gr-result-desc {
+    color: #888;
 }
 
 .no-data-tips {
     padding: 40rpx 0;
     background-color: #fff;
     border-radius: 4rpx;
+    color: #b2b2b2;
+    font-size: 13px;
+    text-align: center;
 }
 
-.weui-panel {
-    margin-bottom: 64px;
-}
-
-.weui-cell:before {
-    right: 15px;
-    border-top-style: dashed;
+.weui-cell__bd view {
+    font-size: 16px;
 }

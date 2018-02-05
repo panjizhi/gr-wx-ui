@@ -10,11 +10,12 @@ const config = {
 
     requestUrl: `https://${host}/api`,
 
-    questionTypes: {
-        'choice': '单选',
-        'multiple-choices': '多选',
-        'cloze': '填空'
-    }
+    questionTypes: [
+        "单选",
+        "填空",
+        "计算",
+        "写作"
+    ]
 };
 
 module.exports = config;
