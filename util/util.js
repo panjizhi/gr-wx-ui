@@ -1,3 +1,5 @@
+const config = require('../config');
+
 function formatTime(time) {
     if (typeof time !== 'number' || time < 0) {
         return time
@@ -9,7 +11,7 @@ function formatTime(time) {
     time = time % 60
     var second = time
 
-    return ([hour, minute, second]).map(function(n) {
+    return ([hour, minute, second]).map(function (n) {
         n = n.toString()
         return n[1] ? n : '0' + n
     }).join(':')
@@ -30,7 +32,7 @@ function formatLocation(longitude, latitude) {
     }
 }
 
-function assign(target, varArgs) {   
+function assign(target, varArgs) {
     if (typeof Object.assign === 'function') {
         return Object.assign(target, varArgs);
     }
@@ -57,13 +59,13 @@ function assign(target, varArgs) {
 }
 
 function sizeOfHans(str) {
-    if ( typeof str !== 'string') {
+    if (typeof str !== 'string') {
         return 0;
     }
 
     var strHex = '';
 
-    for (var i = str.length - 1; i >= 0; i-- ) {
+    for (var i = str.length - 1; i >= 0; i--) {
         strHex += str.charCodeAt(i).toString(16);
     }
 
@@ -75,7 +77,7 @@ function shuffle(array) {
     var randomIndex;
     var currentIndex = array.length;
 
-    while ( currentIndex > 0 ) {
+    while (currentIndex > 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
 
@@ -93,5 +95,26 @@ module.exports = {
     formatLocation,
     assign,
     sizeOfHans,
-    shuffle
-}
+    shuffle,
+    AsyncRequest: (action, pdt, cb) => {
+        if (!cb) {
+            cb = () => { };
+        }
+
+        wx.request({
+            url: `${config.requestUrl}/${action}`,
+            method: 'POST',
+            dataType: 'json',
+            data: pdt ? JSON.stringify(pdt) : null,
+            success: (res) => {
+                if (res.statusCode !== 200) {
+                    return cb('Status code ' + res.statusCode);
+                }
+                cb(null, res.data);
+            },
+            fail: () => {
+                cb && cb('Response error');
+            }
+        });
+    }
+};

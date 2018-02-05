@@ -1,5 +1,5 @@
 const config = require('../../config');
-const utils  = require('../../util/util');
+const utils = require('../../util/util');
 
 const app = getApp();
 
@@ -22,27 +22,23 @@ Page({
         this.updateData();
     },
     updateData() {
-        app.getUserInfo( user => {
+        app.getUserInfo(user => {
             this.setData({
                 user
             });
 
-            wx.request({
-                url: `${config.requestUrl}/exam/list/${user.openid}`,
-                dataType: 'json',
-                success: res => {
-                    wx.hideLoading();
+            utils.AsyncRequest('exam/list', { openid: user.openid }, (err, dat) => {
+                wx.hideLoading();
 
-                    this.setData({
-                        papers: (res.data || []).map(item => {
-                            let paper = item.paper;
-                            paper._dispatchId = item._id;
-                            
-                            return paper;
-                        }),
-                        ready: true
-                    });
-                }
+                this.setData({
+                    papers: err ? [] : dat.map(item => {
+                        let paper = item.paper;
+                        paper._dispatchId = item._id;
+
+                        return paper;
+                    }),
+                    ready: true
+                });
             });
         });
     },
@@ -50,15 +46,15 @@ Page({
         let realName = this.data.realName;
         let msg = '';
 
-        if ( !realName ) {
+        if (!realName) {
             msg = '请输入真实姓名, 保存后不能修改, 请确保信息真实有效'
         }
 
-        if ( utils.sizeOfHans(realName) > 4 ) {
-            msg = '请确保名字真实有效, 最多4个汉子, 保存后不能修改';
+        if (utils.sizeOfHans(realName) > 4) {
+            msg = '请确保名字真实有效, 最多4个汉字, 保存后不能修改';
         }
 
-        if ( msg.length > 0 ) {
+        if (msg.length > 0) {
             return wx.showModal({
                 content: msg,
                 showCancel: false
@@ -68,38 +64,27 @@ Page({
         const self = this;
         const user = self.data.user;
 
-        wx.request({
-            url: `${config.requestUrl}/user/add`,
-            method: 'POST',
-            header: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            dataType: 'json',
-            data: {
-                name: realName,
-                openid: user.openid,
-                avatarUrl: user.avatarUrl
-            },
-            success(res){
-                const data = res.data || {};
-
-                self.setData({
-                    user: {
-                        'session_key': user.session_key,
-                        'expires_in': user.expires_in,
-                        'openid': user.openid,
-                        '_id': data._id,
-                        'name': data.name,
-                        'nickName': user.nickName,
-                        'gender': user.gender,
-                        'language': user.language,
-                        'city': user.city,
-                        'province': user.province,
-                        'country': user.country,
-                        'avatarUrl': user.avatarUrl
-                    }
-                });
-            }
+        utils.AsyncRequest('user/add', {
+            name: realName,
+            openid: user.openid,
+            avatar: user.avatarUrl
+        }, (err, dat) => {
+            self.setData({
+                user: {
+                    'session_key': user.session_key,
+                    'expires_in': user.expires_in,
+                    'openid': user.openid,
+                    '_id': dat._id,
+                    'name': dat.name,
+                    'nickName': user.nickName,
+                    'gender': user.gender,
+                    'language': user.language,
+                    'city': user.city,
+                    'province': user.province,
+                    'country': user.country,
+                    'avatarUrl': user.avatarUrl
+                }
+            });
         });
     },
     inputRealName(e) {

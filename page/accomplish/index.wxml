@@ -4,24 +4,21 @@
         <view class="user-name">{{user.name || user.nickName}}</view>
     </view>
 
-    <view wx:if="{{papers.length}}" class="weui-panel weui-panel_access">
-        <view
-            class="weui-panel__bd"
-            wx:for-items="{{papers}}"
-            wx:key="{{item._id}}">
-            <view class="weui-media-box weui-media-box_text">
-                <view class="weui-media-box__title weui-media-box__title_in-text">{{item.paper.name}}</view>
-                <view class="weui-media-box__desc">成绩：{{item.score}}, 词汇量: {{item.vocabulary}}</view>
+    <view class="weui-cells" wx:if="{{papers.length}}">
+        <navigator class="weui-cell weui-cell_access" wx:for-items="{{papers}}" wx:key="{{item._id}}" url="/page/review/index?id={{item._id}}">
+            <view class="weui-cell__bd">
+                <view class="weui-gr-title">
+                    <view>{{item.paper.name}}</view>
+                    <view class="weiui-gr-result-desc">{{item.begin_time}}</view>
+                </view>
+                <view class="weui-gr-title weiui-gr-result-desc">
+                    <view>用时 {{item.duration}}</view>
+                    <view>满分 {{item.paper.score}}</view>
+                    <view>得分 {{item.score}}</view>
+                </view>
             </view>
-            <view class="weui-panel__ft">
-                <navigator
-                    class="weui-cell weui-cell_access weui-cell_link"
-                    url="/page/review/index?id={{item.paper._id}}&errJSON={{item.errJSON}}">
-                    <view class="weui-cell__bd">错题回顾</view>
-                    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-                </navigator>
-            </view>
-        </view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
     </view>
 
     <view wx:else class="no-data">
