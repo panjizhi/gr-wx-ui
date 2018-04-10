@@ -68,3 +68,13 @@
 .gr-question-result {
     color: #000 !important;
 }
+
+.weui-gr-question-previous {
+    padding: 0 15px 20px;
+}
+
+.weui-gr-last-confirm {
+    padding: 30px 15px 20px;
+    font-size: 16px;
+    font-weight: 400;
+}

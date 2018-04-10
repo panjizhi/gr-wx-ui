@@ -12,7 +12,9 @@ Page({
         currQuestion: null,
         paper: null,
         answers: {}, // 考生答案
-        result: null // 测试结果
+        result: null, // 测试结果
+        completed: 0,
+        submitting: false
     },
     onLoad(options) {
         const self = this;
@@ -41,7 +43,8 @@ Page({
                                 ins.options.forEach((option, i) => {
                                     option.index = i;
                                 });
-                                util.shuffle(ins.options);
+
+                                ins.disorder && util.shuffle(ins.options);
 
                                 ins.options.forEach((option, i) => {
                                     option.sign = String.fromCharCode(i + 65);
@@ -55,7 +58,7 @@ Page({
                         ins => {
                             const blanks = [];
                             for (let i = 0, l = ins.count; i < l; ++i) {
-                                blanks.push('_');
+                                blanks.push('');
                             }
                             ins.blanks = blanks;
                         },
@@ -67,11 +70,13 @@ Page({
                     func && func(item.content);
                 });
 
-                data.questions = util.shuffle(questions); // 打乱考题顺序
+                data.questions = data.disorder ? util.shuffle(questions) : questions; // 打乱考题顺序
 
                 self.setData({
                     paper: data,
                     currQuestion: questions[self.data.currIndex],
+                    isBack: 0,
+                    preIsBack: 1,
                     dispatchId: options.dispatchId,
                     blanks: null
                 });
@@ -146,31 +151,61 @@ Page({
     nextQuestion() {
         const questions = this.data.paper.questions;
         const nextIndex = this.data.currIndex + 1;
+        const { isBack, preIsBack } = this.data;
 
         if (nextIndex === questions.length) { // 最后一道考题
-            return wx.request({
-                url: `${config.requestUrl}/exam/calculate`,
-                method: 'POST',
-                data: {
-                    start_time: this.data.paper.now,
-                    examId: this.data.paper._id,
-                    answers: this.data.answers,
-                    dispatchId: this.data.dispatchId,
-                    userId: this.data.user._id
-                },
-                dataType: 'json',
-                success: res => {
-                    this.setData({
-                        result: res.data
-                    });
-                }
+            return this.setData({
+                currIndex: nextIndex,
+                completed: 1
             });
         }
+
+        const pstate = isBack;
 
         this.setData({ // 转到下一题
             currIndex: nextIndex,
             currQuestion: questions[nextIndex],
-            blanks: null
+            blanks: null,
+            preIsBack: pstate,
+            isBack: 0
+        });
+    },
+    SubmitPaper() {
+        const { paper, answers, dispatchId, user } = this.data;
+
+        this.setData({ submitting: true });
+
+        util.AsyncRequest('exam/calculate', {
+            start_time: paper.now,
+            examId: paper._id,
+            answers: answers,
+            dispatchId: dispatchId,
+            userId: user._id
+        }, (err, dat) => {
+            if (err) {
+                dat = { score: 0 };
+            }
+
+            this.setData({
+                result: dat,
+                submitting: false
+            });
+        });
+    },
+    BackPreviousQuestion() {
+        const { paper: { questions }, currIndex } = this.data;
+        const nextIndex = currIndex - 1;
+        if (nextIndex < 0) {
+            return;
+        }
+
+        this.setData({
+            currIndex: nextIndex,
+            currQuestion: questions[nextIndex],
+            blanks: null,
+            preIsBack: 0,
+            isBack: 1,
+            completed: 0
         });
     },
     PreviewImage: function (e) {

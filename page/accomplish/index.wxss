@@ -40,13 +40,17 @@
     color: #888;
 }
 
+.no-data {
+    text-align: center;
+    padding: 0 30rpx 40rpx;
+    display: block;
+}
+
 .no-data-tips {
     padding: 40rpx 0;
     background-color: #fff;
     border-radius: 4rpx;
     color: #b2b2b2;
-    font-size: 13px;
-    text-align: center;
 }
 
 .weui-cell__bd view {
