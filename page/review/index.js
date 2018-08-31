@@ -4,50 +4,68 @@ const utils = require('../../util/util.js');
 const app = getApp();
 
 Page({
-    data: {
-        user: null,
-        typesMap: config.questionTypes,
-        paper: null,
-        errors: null
-    },
-    onLoad(options) {
-        app.getUserInfo(user => {
-            this.setData({
-                user
-            });
+  data: {
+    user: null,
+    typesMap: config.questionTypes,
+    paper: null,
+    errors: null
+  },
+  onLoad(options) {
+    app.getUserInfo(user => {
+      this.setData({
+        user
+      });
 
-            utils.AsyncRequest('exam/review', { id: options.id }, (err, dat) => {
-                if (err) {
-                    return;
-                }
+      utils.AsyncRequest('exam/review', { id: options.id }, (err, dat) => {
+        if (err) {
+          return;
+        }
 
-                const { answers, paper } = dat;
+        const { answers, paper } = dat;
 
-                const ansDict = {};
-                answers.forEach((ins) => ansDict[ins.question] = ins);
+        const ansDict = {};
+        answers.forEach((ins) => ansDict[ins.question] = ins);
 
-                const wrongArr = [];
-                const qusArr = [];
-                paper.questions.forEach((ins) => {
-                    const ans = ansDict[ins._id];
-                    if (ans) {
-                        ins.answer = ans.answer;
-                        (ans.right ? qusArr : wrongArr).push(ins);
-                    }
-                });
+        const { questions, articles } = paper;
 
-                const arr = wrongArr.concat(qusArr);
+        const adict = {};
+        if (articles) {
+          articles.forEach(ins => adict[ins._id] = ins);
+        }
 
-                this.setData({
-                    paper: paper,
-                    questions: arr
-                });
-            });
+        const wrongArr = [];
+        const qusArr = [];
+        questions.forEach((ins) => {
+          const ans = ansDict[ins._id];
+          ins.answer = ans ? ans.answer : null;
+          (ans && ans.right ? qusArr : wrongArr).push(ins);
         });
-    },
-    PreviewImage: function (e) {
-        wx.previewImage({
-            urls: [e.currentTarget.dataset.src]
+
+        const arr = wrongArr.concat(qusArr);
+
+        let lastArticle = null;
+        arr.forEach(ins => {
+          if (ins.article) {
+            if (ins.article === lastArticle) {
+              delete ins.article;
+            }
+            else {
+              lastArticle = ins.article;
+              ins.article = adict[ins.article];
+            }
+          }
         });
-    }
+
+        this.setData({
+          paper: paper,
+          questions: arr
+        });
+      });
+    });
+  },
+  PreviewImage: function (e) {
+    wx.previewImage({
+      urls: [e.currentTarget.dataset.src]
+    });
+  }
 });

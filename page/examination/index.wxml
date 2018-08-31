@@ -1,48 +1,78 @@
-<view class="page" wx:if="{{result === null}}">
+<view wx:if="{{!result&&!completed}}">
+  <view wx:if="{{remaining>0}}" class="countdown">
+    <view class="time-number">{{remaining_formats[0]}}</view>
+    <view class="time-splitter"></view>
+    <view class="time-number">{{remaining_formats[1]}}</view>
+    <view class="time-splitter"></view>
+    <view class="time-number">{{remaining_formats[2]}}</view>
+  </view>
+  <view class="page">
+    <view class="page__hd question-article" wx:if="{{currQuestion.article}}">
+      <view class="question-article-content">{{currQuestion.article.content}}</view>
+      <view class="gr-picture">
+        <image src="{{currQuestion.article.picture}}" data-src="{{currQuestion.article.picture}}" mode="aspectFit" catchtap="PreviewImage"></image>
+      </view>
+    </view>
     <view class="page__hd">
-        <view class="weui-article__h1 weui-gr-title">
-            <view>第{{currIndex+1}}题:</view>
-            <view>{{currQuestion.name}}</view>
-        </view>
-        <view class="gr-question-type">{{typesMap[currQuestion.qtype]}}</view>
+      <view class="weui-article__h1 weui-gr-title">
+        <view>第{{currIndex+1}}题:</view>
+        <view>{{currQuestion.name}}</view>
+      </view>
+      <view class="question-picture gr-picture" wx:if="{{currQuestion.picture}}">
+        <image src="{{currQuestion.picture}}" data-src="{{currQuestion.picture}}" mode="aspectFit" catchtap="PreviewImage"></image>
+      </view>
+      <view class="gr-question-type">{{typesMap[currQuestion.qtype]}}</view>
     </view>
     <view class="page__bd page__bd_spacing">
-        <view class="weui-cells weui-cells_after-title" wx:if="{{currQuestion.qtype===0}}">
-            <radio-group bindchange="radioChange">
-                <label class="weui-cell weui-check__label" wx:for="{{currQuestion.content.options}}" wx:key="{{item.index}}">
-                    <radio class="weui-check" value="{{item.index}}" checked="{{item.checked}}" />
-                    <view class="weui-radio-option">
-                        <view class="weui-cell__bd">{{item.sign+'. '+item.title}}</view>
-                        <view class="weui-cell__bd" wx:if="{{item.image}}">
-                            <image src="{{item.image}}" data-src="{{item.image}}" class="weui-radio-image" mode="aspectFit" lazy-load="true" catchtap="PreviewImage" />
-                        </view>
-                    </view>
-                </label>
-            </radio-group>
+      <view class="weui-cells weui-cells_after-title" wx:if="{{currQuestion.qtype===0}}">
+        <radio-group bindchange="radioChange">
+          <label class="weui-cell weui-check__label radio-option" wx:for="{{currQuestion.content.options}}" wx:key="{{item.index}}">
+            <radio class="weui-check" value="{{item.index}}" checked="{{item.checked}}" />
+            <view class="weui-radio-option">
+              <view class="weui-cell__bd">{{item.sign+'. '+item.title}}</view>
+              <view class="weui-cell__bd" wx:if="{{item.image}}">
+                <image src="{{item.image}}" data-src="{{item.image}}" class="weui-radio-image" mode="aspectFit" lazy-load="true" catchtap="PreviewImage" />
+              </view>
+            </view>
+          </label>
+        </radio-group>
+      </view>
+
+      <view wx:elif="{{currQuestion.qtype === 1}}">
+        <view class="weui-article__h3 weiui-blacks-text">{{currQuestion.content.text}}</view>
+        <view class="weui-cells">
+          <view class="weui-cell weui-cell_input" wx:for="{{currQuestion.content.blanks}}" wx:key="{{index}}">
+            <view class="weui-cell__bd">
+              <input class="weui-input" placeholder="请输入文本" bindinput="clozeTextInput" data-index="{{index}}" value="{{item}}" />
+            </view>
+          </view>
         </view>
 
-        <view wx:elif="{{currQuestion.qtype === 1}}">
-            <view class="weui-article__h3 weiui-blacks-text">{{currQuestion.content.text}}</view>
-            <view class="weui-cells">
-                <view class="weui-cell weui-cell_input" wx:for="{{currQuestion.content.blanks}}" wx:key="{{index}}">
-                    <view class="weui-cell__bd">
-                        <input class="weui-input" placeholder="请输入文本" bindinput="clozeTextInput" data-index="{{index}}" />
-                    </view>
-                </view>
-            </view>
-
-            <view class="weui-gr-paper-submit">
-                <button class="weui-btn" type="primary" bindtap="clozeTextSubmit">确定</button>
-            </view>
+        <view class="weui-gr-paper-submit">
+          <button class="weui-btn" type="primary" bindtap="clozeTextSubmit">确定</button>
         </view>
+      </view>
     </view>
+  </view>
 </view>
-<view class="page" wx:else>
-    <view class="weui-article__h1">{{paper.name}}</view>
-    <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell weui-cell_access">
-            <view class="weui-cell__bd">考试成绩：</view>
-            <view class="weui-cell__ft gr-question-result">{{result.score}}</view>
-        </view>
+
+<view class="page" class="weui-gr-question-previous" wx:if="{{!result&&completed}}">
+  <view class="weui-gr-last-confirm">您已回答完所有试题，提交查看成绩</view>
+  <view>
+    <button class="weui-btn" type="primary" loading="{{submitting}}" bindtap="SubmitPaper">提交</button>
+  </view>
+</view>
+
+<view class="weui-gr-question-previous" wx:if="{{!result&&!isBack&&!preIsBack}}">
+  <button class="weui-btn" type="default" bindtap="BackPreviousQuestion">重新回答上一题</button>
+</view>
+
+<view class="page" wx:if="{{result}}">
+  <view class="weui-article__h1">{{paper.name}}</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_access">
+      <view class="weui-cell__bd">考试成绩：</view>
+      <view class="weui-cell__ft gr-question-result">{{result.score}}</view>
     </view>
+  </view>
 </view>

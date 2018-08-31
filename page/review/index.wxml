@@ -1,40 +1,55 @@
 <view class="page">
-    <view class="weui-article__h1">{{paper.name}}</view>
-    <view class="weui-article__section" wx:for="{{questions}}" wx:for-item="qus" wx:key="_id">
-        <view class="weui-article__h3 weui-gr-title">
-            <view>第{{index+1}}题</view>
-            <view> {{qus.name}}</view>
-        </view>
-
-        <view class="gr-question-type">{{typesMap[qus.qtype]}}</view>
-
-        <view class="weui-cells weui-cells_after-title" wx:if="{{qus.qtype===0}}">
-            <view class="weui-cell weui-cell_access weui-radio-option" wx:for="{{qus.content.options}}" wx:for-item="opt" wx:key="index">
-                <view class="weui-cell__bd">{{opt.title}}</view>
-                <view class="weui-cell__bd" wx:if="{{opt.image}}">
-                    <image src="{{opt.image}}" data-src="{{opt.image}}" class="weui-radio-image" mode="aspectFit" lazy-load="true" catchtap="PreviewImage" />
-                </view>
-                <view class="weui-radio-result">
-                    <icon class="weui-icon-radio" type="{{index===qus.content.right?'success_no_circle':'warn'}}" wx:if="{{index === qus.content.right || index === qus.answer}}" size="16" />
-                </view>
-            </view>
-        </view>
-
-        <view wx:if="{{qus.qtype===1}}">
-            <view class="weui-article__h3 weiui-blacks-text">{{qus.content.text}}</view>
-            <view class="weui-cells">
-                <view class="weui-cell weui-cell_access weui-blank" wx:for="{{qus.answer}}" wx:for-item="ans" wx:key="index">
-                    <view class="weui-cell__bd">{{ans}}</view>
-                    <view class="weui-cell__bd weui-blank-right">{{qus.content.answers[index]}}</view>
-                    <view class="weui-radio-result">
-                        <icon class="weui-icon-radio" type="{{ans===qus.content.answers[index]?'success_no_circle':'warn'}}" size="16" />
-                    </view>
-                </view>
-            </view>
-        </view>
+  <view class="weui-article__h1">{{paper.name}}</view>
+  <view class="weui-article__section" wx:for="{{questions}}" wx:for-item="qus" wx:key="_id">
+    <view class="question-article" wx:if="{{qus.article}}">
+      <view class="question-article-content">{{qus.article.content}}</view>
+      <view class="gr-picture">
+        <image src="{{qus.article.picture}}" data-src="{{qus.article.picture}}" mode="aspectFit" catchtap="PreviewImage"></image>
+      </view>
     </view>
 
-    <navigator open-type="navigateBack">
-        <button class="weui-btn" type="primary">返回</button>
-    </navigator>
+    <view class="weui-article__h3 weui-gr-title">
+      <view>第{{index+1}}题</view>
+      <view> {{qus.name}}</view>
+    </view>
+
+    <view class="question-picture gr-picture" wx:if="{{qus.picture}}">
+      <image src="{{qus.picture}}" data-src="{{qus.picture}}" mode="aspectFit" catchtap="PreviewImage"></image>
+    </view>
+
+    <view class="gr-question-type">{{typesMap[qus.qtype]}}</view>
+
+    <view class="weui-cells weui-cells_after-title" wx:if="{{qus.qtype===0}}">
+      <view class="weui-cell weui-cell_access weui-radio-option" wx:for="{{qus.content.options}}" wx:for-item="opt" wx:key="index">
+        <view class="weui-cell__bd">{{opt.title}}</view>
+        <view class="weui-cell__bd" wx:if="{{opt.image}}">
+          <image src="{{opt.image}}" data-src="{{opt.image}}" class="weui-radio-image" mode="aspectFit" lazy-load="true" catchtap="PreviewImage" />
+        </view>
+        <view class="weui-radio-result">
+          <icon class="weui-icon-radio" type="{{index===qus.content.right?(qus.answer===null?'waiting':'success_no_circle'):'warn'}}" wx:if="{{index === qus.content.right || index === qus.answer}}" size="16" />
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{qus.qtype===1}}">
+      <view class="weui-article__h3 weiui-blacks-text">{{qus.content.text}}</view>
+      <view class="weui-cells">
+        <view class="weui-cell weui-cell_access weui-blank" wx:for="{{qus.answer}}" wx:for-item="ans" wx:key="index">
+          <view class="weui-cell__bd">{{ans}}</view>
+          <view class="weui-cell__bd weui-blank-right">{{qus.content.answers[index]}}</view>
+          <view class="weui-radio-result">
+            <icon class="weui-icon-radio" type="{{ans===qus.content.answers[index]?'success_no_circle':'warn'}}" size="16" />
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="question-explain" wx:if="{{qus.explain}}">
+      {{qus.explain}}
+    </view>
+  </view>
+
+  <navigator open-type="navigateBack">
+    <button class="weui-btn" type="primary">返回</button>
+  </navigator>
 </view>

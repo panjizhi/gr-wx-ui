@@ -31,7 +31,6 @@
     background-color: #fff;
     border-radius: 4rpx;
     color: #b2b2b2;
-    font-size: 13px;
 }
 
 .weui-cells {

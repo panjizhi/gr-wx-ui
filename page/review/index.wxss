@@ -1,72 +1,106 @@
 .page {
-    padding: 20px 15px;
+  padding: 20px 15px;
 }
 
-.weui-gr-title {
-    justify-content: flex-start;
-    align-items: center;
-    display: flex;
+.weui-gr-title > view {
+  display: inline;
 }
 
 .weui-gr-title > view:not(:first-child) {
-    margin-left: 12px;
+  padding-left: 12px;
 }
 
 .weui-gr-title view {
-    font-size: 16px !important;
+  font-size: 16px !important;
 }
 
 .gr-question-type {
-    font-size: 14px !important;
-    color: #8c8c8c;
+  font-size: 14px !important;
+  color: #8c8c8c;
 }
 
 .gr-question-type::before, .gr-question-type::after {
-    content: "**";
+  content: "**";
 }
 
 .weui-cells {
-    margin-top: 0 !important;
+  margin-top: 0 !important;
 }
 
 .weui-radio-option > view:not(:last-child) {
-    flex: 1;
+  flex: 1;
 }
 
 .weui-radio-result {
-    width: 30px;
-    height: 100%;
+  width: 30px;
+  height: 100%;
 }
 
 .weui-radio-image {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 }
 
 .weui-cell__bd {
-    justify-content: flex-start;
-    align-items: center;
-    display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
 }
 
 .weui-radio-option, .weui-blank {
-    justify-content: flex-start;
-    align-items: center;
-    display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
 }
 
 .weui-blank-right {
-    color: #1aad19;
+  color: #1aad19;
 }
 
 .weiui-blacks-text {
-    color: #353535;
+  color: #353535;
 }
 
 .weui-cell view {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .weui-cell__bd {
-    font-size: 16px !important;
+  font-size: 16px !important;
+}
+
+.question-explain {
+  padding: 10px 15px;
+  font-size: 14px;
+}
+
+.question-explain::before {
+  content: "详解: ";
+  font-weight: 600;
+}
+
+.gr-picture {
+  height: 150px;
+}
+
+.gr-picture > image {
+  width: 100%;
+  height: 100%;
+}
+
+.question-article {
+  margin-bottom: 15px;
+}
+
+.question-article > view:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.question-article-content {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.question-picture {
+  margin-bottom: 15px;
 }
