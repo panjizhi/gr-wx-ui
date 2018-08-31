@@ -2,7 +2,7 @@
  * 配置文件
  */
 
-const host = 'gerun.mobi';
+const host = 'dev.gerun.mobi';
 
 const config = {
 
